@@ -410,11 +410,11 @@ int main(int argc, const char **argv)
                 in = fopen(argv[1], "r");
         }
         else {
-                fprintf(stderr,"ERROR: No input!");
+                fprintf(stderr,"ERROR: No input!\n");
                 exit(EXIT_FAILURE);
         }
         if(in == NULL) {
-                fprintf(stderr,"ERROR: Empty file!");
+                fprintf(stderr,"ERROR: Empty file!\n");
                 exit(EXIT_FAILURE);
         }
 
@@ -430,12 +430,12 @@ int main(int argc, const char **argv)
                         check = 1;
                         if (!line_has_one_string(line))
                         {       //Prints error to stderr
-                                fprintf(stderr, "ERROR: The first line contains more than one string!");
+                                fprintf(stderr, "ERROR: The first line contains more than one string!\n");
                                 exit(EXIT_FAILURE);
                         }
                         else if (!isdigit(*line))
                         {       //Prints error to stderr
-                                fprintf(stderr, "ERROR: The first line is not a number!");
+                                fprintf(stderr, "ERROR: The first line is not a number!\n");
                                 exit(EXIT_FAILURE);
                         }
                 }
@@ -444,7 +444,7 @@ int main(int argc, const char **argv)
                 {       //reads number in string
                         edges = atoi(line);
                         if(!isdigit(*(char*)line)) {
-                                fprintf(stderr, "ERROR: Bad format!");
+                                fprintf(stderr, "ERROR: Bad format!\n");
                                 exit(EXIT_FAILURE);
                         }
                         continue;
@@ -454,7 +454,7 @@ int main(int argc, const char **argv)
                 // Check that number of whitespaces are correct
                 if (count_white_spaces(information[iter]) != 1)
                 {
-                        fprintf(stderr, "ERROR: Not the correct number of whitespaces!");
+                        fprintf(stderr, "ERROR: Not the correct number of whitespaces!\n");
                         exit(EXIT_FAILURE);
                 }
                 //Allocates two string elements
@@ -472,7 +472,7 @@ int main(int argc, const char **argv)
                 iter++;
         }
         if(!iter) {
-                fprintf(stderr,"Error: Empty file!");
+                fprintf(stderr,"Error: Empty file!\n");
                 exit(EXIT_FAILURE);
         }
         //Frees allocated memory used by information
@@ -532,5 +532,5 @@ int main(int argc, const char **argv)
         free(str2);
         //closes the read-in file
         fclose(in);
-        printf("Normal exit.");
+        printf("Normal exit.\n");
 }
