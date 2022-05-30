@@ -1,0 +1,14 @@
+Code:
+	Added an else-statement(Ln 414 in is_connected.c) that exits the program if no file is sent to the program.
+
+	Added an if-statement(Ln 445 in is_connected.c) that exits the program if a row in the text file is only
+	one string AND not a number.
+
+	Made a function count_nodes() that counts the number of unique node names in a given textfile. This
+	function is called when using build_graph() so that the correct number of unique nodes can be initiated
+	correctly for the static array-implementation.
+
+Report:
+	Added information flow-section.
+	Added explicit references to Appendix.
+	Added a step-by-step user tutorial with pictures.
