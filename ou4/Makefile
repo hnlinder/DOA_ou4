@@ -2,6 +2,8 @@ CC=gcc
 CFLAGS = -std=c99 -Wall -g
 INC = -I ../datastructures-v1.0.9/include/
 
+
+# NOTE: these object paths assume that you make them in their respective datastructures-v1.0.9 folders
 OBJECTS = graph.o ../datastructures-v1.0.9/src/queue/queue.o ../datastructures-v1.0.9/src/dlist/dlist.o ../datastructures-v1.0.9/src/list/list.o
 
 GRAPHOBJECTS = ../datastructures-v1.0.9/src/dlist/dlist.o
@@ -21,8 +23,8 @@ is_connected: is_connected.c
 graph: graph.c
 	$(CC) $(CFLAGS) -c ./$< -o $@.o $(INC)
 
-mwe1: ./mwe1.c
-	$(CC) $(CFLAGS) ./$< -o $@ $(INC) $(ARROBJECTS)
+# mwe1: ./mwe1.c
+# 	$(CC) $(CFLAGS) ./$< -o $@ $(INC) $(ARROBJECTS)
 
 delim:
 	@echo "-------------------------"

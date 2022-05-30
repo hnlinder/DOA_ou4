@@ -10,16 +10,16 @@
 #include "queue.h"
 
 /*
- * Implementation of algorithm that takes a set of nodes and edges, creates
- * a graph from this set and determines whether there's a path from a given
- * starting node to a given destination node.
- *
- * Authors: Henrik Linder (tfy18hlr@cs.umu.se)
- *	   		Isak Mikaelsson (tfy20imn@cs.umu.se)
- *
- * Version information:
- *   2021-05-30: v1.0, first public version.
- */
+* Implementation of algorithm that takes a set of nodes and edges, creates
+* a graph from this set and determines whether there's a path from a given
+* starting node to a given destination node.
+*
+* Authors: Isak Mikaelsson (tfy20imn@cs.umu.se)
+*          Henrik Linder (tfy18hlr@cs.umu.se)
+*
+* Version information:
+*   2021-05-30: v1.0, first public version.
+*/
 
 #define BUFSIZE 500
 #define bufsize 100
@@ -36,13 +36,13 @@ typedef struct node
         bool seen_status;
 } node;
 /**
- * first_non_white_space() - Check where first non-whitespace is.
- * @s: Pointer to character.
- *
- * Returns: i if s[i] is not NULL
- * Returns -1 if s[i] is NULL
- *
- */
+* first_non_white_space() - Check where first non-whitespace is.
+* @s: Pointer to character.
+*
+* Returns: i if s[i] is not NULL
+* Returns -1 if s[i] is NULL
+*
+*/
 int first_non_white_space(const char *s)
 {
         int i = 0;
@@ -60,13 +60,13 @@ int first_non_white_space(const char *s)
         }
 }
 /**
- * last_non_white_space() - Check where last non-whitespace is.
- * @s: Pointer to character.
- *
- * Returns: i if i>= 0,
- * Returns -1 else
- *
- */
+* last_non_white_space() - Check where last non-whitespace is.
+* @s: Pointer to character.
+*
+* Returns: i if i>= 0,
+* Returns -1 else
+*
+*/
 int last_non_white_space(const char *s)
 {       //Defines i as length of string -1
         int i = strlen(s) - 1;
@@ -84,13 +84,13 @@ int last_non_white_space(const char *s)
         }
 }
 /**
- * number_of_strings() - Determine number of strings in char.
- * @s: Pointer to character.
- *
- * Returns: an integer, count.
- *
- *
- */
+* number_of_strings() - Determine number of strings in char.
+* @s: Pointer to character.
+*
+* Returns: an integer, count.
+*
+*
+*/
 int number_of_strings(const char *s)
 {
         int beg = first_non_white_space(s);
@@ -112,13 +112,13 @@ int number_of_strings(const char *s)
         return count;
 }
 /**
- * remove_comment() - Removes text strings containing #.
- * @s: Pointer to character.
- *
- * Returns: Modified string without comments.
- *
- *
- */
+* remove_comment() - Removes text strings containing #.
+* @s: Pointer to character.
+*
+* Returns: Modified string without comments.
+*
+*
+*/
 char *remove_comment(char *s)
 {
         int stringlen = strlen(s);
@@ -133,54 +133,54 @@ char *remove_comment(char *s)
         return substring;
 }
 /**
- * line_has_one_string() - Tests if given char is just one string.
- * @s: Pointer to character.
- *
- * Returns: true if number_of_strings() returns 1
- * false otherwise.
- *
- *
- */
+* line_has_one_string() - Tests if given char is just one string.
+* @s: Pointer to character.
+*
+* Returns: true if number_of_strings() returns 1
+* false otherwise.
+*
+*
+*/
 bool line_has_one_string(const char *s)
 {
         return number_of_strings(s) == 1;
 }
 /**
- * line_is_blank - Tests if a given line of string is blank.
- * @s: Pointer to character.
- *
- * Returns: true if line is blank
- * false otherwise.
- *
- *
- */
+* line_is_blank - Tests if a given line of string is blank.
+* @s: Pointer to character.
+*
+* Returns: true if line is blank
+* false otherwise.
+*
+*
+*/
 bool line_is_blank(const char *s)
 {
         return first_non_white_space(s) < 0;
 }
 /**
- * line_is_comment - Tests if a given line of string is a comment.
- * @s: Pointer to character.
- *
- * Returns: true if line is a comment and if i >= 0
- * false otherwise.
- *
- *
- */
+* line_is_comment - Tests if a given line of string is a comment.
+* @s: Pointer to character.
+*
+* Returns: true if line is a comment and if i >= 0
+* false otherwise.
+*
+*
+*/
 bool line_is_comment(const char *s)
 {
         int i = first_non_white_space(s);
         return (i >= 0 && s[i] == '#');
 }
 /**
- * white_space() - Tests if a given line of string is "space"
- * @s: Pointer to character.
- *
- * Returns: integer i if s[i] = true, i.e not NULL
- * false otherwise.
- *
- *
- */
+* white_space() - Tests if a given line of string is "space"
+* @s: Pointer to character.
+*
+* Returns: integer i if s[i] = true, i.e not NULL
+* false otherwise.
+*
+*
+*/
 int white_space(const char *s)
 {
         int i = 0;
@@ -198,12 +198,12 @@ int white_space(const char *s)
         }
 }
 /**
- * count_white_spaces() - Counts number of blanks in given line of string.
- * @s: Pointer to character.
- *
- * Returns: integer white_space_cnt.
- *
- */
+* count_white_spaces() - Counts number of blanks in given line of string.
+* @s: Pointer to character.
+*
+* Returns: integer white_space_cnt.
+*
+*/
 int count_white_spaces(const char *s)
 {
         int i = 0;
@@ -211,22 +211,22 @@ int count_white_spaces(const char *s)
         //While s[i] != NULL
         while (s[i])
         {       // if s[i] is a "space"
-                if (isspace(s[i]))
-                {
-                        white_space_cnt++;
-                }
-                i++;
+        if (isspace(s[i]))
+        {
+                white_space_cnt++;
         }
-        // -1 to account for the last whitespace
-        return white_space_cnt;
+        i++;
+}
+// -1 to account for the last whitespace
+return white_space_cnt;
 }
 /**
- * trim() - trims a given line of string.
- * @s: Pointer to character.
- *
- * Returns: the trimmed line
- *
- */
+* trim() - trims a given line of string.
+* @s: Pointer to character.
+*
+* Returns: the trimmed line
+*
+*/
 char *trim(char *line)
 {       //Remove lines of comment
         char *stemp = remove_comment(line);
@@ -246,12 +246,12 @@ char *trim(char *line)
         return s;
 }
 /**
- * build_graph() - Builds the graph
- * @str: Pointer to character.
- * @max_elements integer
- *
- *Returns: The graph with corresponding nodes & strings
- */
+* build_graph() - Builds the graph
+* @str: Pointer to character.
+* @max_elements integer
+*
+*Returns: The graph with corresponding nodes & strings
+*/
 graph *build_graph(char **str1, char **str2, int max_elements, int edges)
 {
 
@@ -282,14 +282,14 @@ graph *build_graph(char **str1, char **str2, int max_elements, int edges)
         return g;
 }
 /**
- * find_path() - function that utilizes breadthfirst
- * @g: Pointer to graph.
- * @src: Pointer to source-node.
- * @dest: Pointer to destination-node
- *
- *Returns: 1 if nodes are equal
- *         0 if not.
- */
+* find_path() - function that utilizes breadthfirst
+* @g: Pointer to graph.
+* @src: Pointer to source-node.
+* @dest: Pointer to destination-node
+*
+*Returns: 1 if nodes are equal
+*         0 if not.
+*/
 bool find_path(graph *g, node *src, node *dest)
 {       //Creates an empty queue
         queue *q = queue_empty(NULL);
@@ -335,15 +335,15 @@ bool find_path(graph *g, node *src, node *dest)
         return 0;
 }
 /**
- * count_nodes() - Counts the number of unique nodes in 2 given strings.
- * @str1: string of start nodes.
- * @str2: string of destination nodes.
- * @edges: number of edges.
- *
- * Returns: Number of unique nodes.
- *
- *
- */
+* count_nodes() - Counts the number of unique nodes in 2 given strings.
+* @str1: string of start nodes.
+* @str2: string of destination nodes.
+* @edges: number of edges.
+*
+* Returns: Number of unique nodes.
+*
+*
+*/
 int count_nodes(char **str1, char **str2, int edges) {
         // Allocate memory for unique nodes
         char **uniquenodes = malloc(BUFSIZE);
@@ -520,7 +520,7 @@ int main(int argc, const char **argv)
         //Kills and free memory of graph
         graph_kill(g);
 
-       //Free memery of each allocated element in str1 and str2 respectively
+        //Free memery of each allocated element in str1 and str2 respectively
         for (int i = iter - 1; i >= 0; i--)
         {
                 free(str1[i]);
