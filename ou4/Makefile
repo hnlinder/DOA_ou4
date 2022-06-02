@@ -13,7 +13,7 @@ GRAPHOBJECTS = ../datastructures-v1.0.9/src/dlist/dlist.o
 # 	./mwe1
 
 
-
+all: graph is_connected
 
 is_connected: is_connected.c
 	$(CC) $(CFLAGS) ./$< -o $@ $(INC) $(OBJECTS)

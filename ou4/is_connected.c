@@ -9,6 +9,7 @@
 #include "graph.h"
 #include "queue.h"
 
+
 /*
 * Implementation of algorithm that takes a set of nodes and edges, creates
 * a graph from this set and determines whether there's a path from a given
@@ -18,7 +19,7 @@
 *          Henrik Linder (tfy18hlr@cs.umu.se)
 *
 * Version information:
-*   2021-05-30: v1.0, first public version.
+*   2022-05-30: v1.0, first public version.
 */
 
 #define BUFSIZE 500
@@ -498,12 +499,12 @@ int main(int argc, const char **argv)
                         node *destination = graph_find_node(g, str22);
                         if (origin == NULL)
                         {       //If user enters a node that does not exist, prints error
-                                printf("Node %s does not exist, try again!\n", str11);
+                                printf("Node %s does not exist, try again!\n\n", str11);
                                 continue;
                         }
                         if (destination == NULL)
                         {       //If user enters a node that does not exist, prints error
-                                printf("Node %s does not exist, try again!\n", str22);
+                                printf("Node %s does not exist, try again!\n\n", str22);
                                 continue;
                         }
                         if (find_path(g, origin, destination))

@@ -6,6 +6,7 @@
 #include "graph.h"
 #include "dlist.h"
 
+
 /*
 * Implementation of a generic graph/dlist solution for the "Datastructures and
 * algorithms" courses at the Department of Computing Science, Umea
@@ -16,7 +17,7 @@
 *
 *
 * Version information:
-*   2021-05-30: v1.0, first public version.
+*   2022-05-30: v1.0, first public version.
 */
 /*Defines a graph structure */
 typedef struct graph
