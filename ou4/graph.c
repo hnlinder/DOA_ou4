@@ -326,7 +326,7 @@ void graph_kill(graph *g)
 * graph_print() - Iterate over the graph elements and print their values.
 * @g: Graph to inspect.
 *
-* Iterates over the graph and prints its contents.
+* Prints the contents of the graph.
 *
 * Returns: Nothing.
 */
@@ -347,9 +347,9 @@ void graph_print(const graph *g)
                 printf("Neighbours: ");
                 while (!dlist_is_end(neighbours, pos2))
                 {
-                        node *markoolio = dlist_inspect(neighbours, pos2);
-                        const char *stefansundstrom = markoolio->identifier;
-                        printf("%s            \n            ", stefansundstrom);//(char *)dlist_inspect(neighbours, pos2));
+                        node *tmpnode = dlist_inspect(neighbours, pos2);
+                        const char *tmpstr = tmpnode->identifier;
+                        printf("%s            \n            ", tmpstr);//(char *)dlist_inspect(neighbours, pos2));
                         pos2 = dlist_next(g->nodes, pos2);
                 }
                 //prints seen status

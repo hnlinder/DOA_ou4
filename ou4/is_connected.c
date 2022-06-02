@@ -11,8 +11,8 @@
 
 
 /*
-* Implementation of algorithm that takes a set of nodes and edges, creates
-* a graph from this set and determines whether there's a path from a given
+* Implementation of algorithm that reads nodes and edges from a text file, creates
+* a graph from these and determines whether there's a path from a given
 * starting node to a given destination node.
 *
 * Authors: Isak Mikaelsson (tfy20imn@cs.umu.se)
@@ -89,8 +89,6 @@ int last_non_white_space(const char *s)
 * @s: Pointer to character.
 *
 * Returns: an integer, count.
-*
-*
 */
 int number_of_strings(const char *s)
 {
@@ -117,8 +115,6 @@ int number_of_strings(const char *s)
 * @s: Pointer to character.
 *
 * Returns: Modified string without comments.
-*
-*
 */
 char *remove_comment(char *s)
 {
@@ -139,8 +135,6 @@ char *remove_comment(char *s)
 *
 * Returns: true if number_of_strings() returns 1
 * false otherwise.
-*
-*
 */
 bool line_has_one_string(const char *s)
 {
@@ -150,10 +144,7 @@ bool line_has_one_string(const char *s)
 * line_is_blank - Tests if a given line of string is blank.
 * @s: Pointer to character.
 *
-* Returns: true if line is blank
-* false otherwise.
-*
-*
+* Returns: true if line is blank, otherwise false
 */
 bool line_is_blank(const char *s)
 {
@@ -164,9 +155,7 @@ bool line_is_blank(const char *s)
 * @s: Pointer to character.
 *
 * Returns: true if line is a comment and if i >= 0
-* false otherwise.
-*
-*
+*          false otherwise.
 */
 bool line_is_comment(const char *s)
 {
@@ -178,9 +167,7 @@ bool line_is_comment(const char *s)
 * @s: Pointer to character.
 *
 * Returns: integer i if s[i] = true, i.e not NULL
-* false otherwise.
-*
-*
+*          false otherwise.
 */
 int white_space(const char *s)
 {
@@ -202,8 +189,7 @@ int white_space(const char *s)
 * count_white_spaces() - Counts number of blanks in given line of string.
 * @s: Pointer to character.
 *
-* Returns: integer white_space_cnt.
-*
+* Returns: integer white_space_cnt which is number of white spaces in line
 */
 int count_white_spaces(const char *s)
 {
@@ -225,7 +211,7 @@ return white_space_cnt;
 * trim() - trims a given line of string.
 * @s: Pointer to character.
 *
-* Returns: the trimmed line
+* Returns: the trimmed line without comments and white spaces
 *
 */
 char *trim(char *line)
@@ -342,8 +328,6 @@ bool find_path(graph *g, node *src, node *dest)
 * @edges: number of edges.
 *
 * Returns: Number of unique nodes.
-*
-*
 */
 int count_nodes(char **str1, char **str2, int edges) {
         // Allocate memory for unique nodes
