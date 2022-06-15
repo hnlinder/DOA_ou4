@@ -82,8 +82,8 @@ bool graph_has_edges(const graph *g)
         dlist_pos pos = dlist_first(g->nodes);
         while (!dlist_is_end(g->nodes, pos))
         {
-                node *inspectedNode = dlist_inspect(g->nodes, pos);
-                if (!dlist_is_empty(inspectedNode->neighbours))
+                node *inspected_node = dlist_inspect(g->nodes, pos);
+                if (!dlist_is_empty(inspected_node->neighbours))
                 {
                         return 1;
                 }
@@ -124,12 +124,12 @@ node *graph_find_node(const graph *g, const char *s)
         dlist_pos pos = dlist_first(g->nodes);
         while (!dlist_is_end(g->nodes, pos))
         {
-                node *inspectedNode = dlist_inspect(g->nodes, pos);
+                node *inspected_node = dlist_inspect(g->nodes, pos);
                 //If the inspected nodes identifier is the same as given string
-                if (!strcmp(inspectedNode->identifier, s))
+                if (!strcmp(inspected_node->identifier, s))
                 {
                         //Returns the node
-                        return inspectedNode;
+                        return inspected_node;
                 }
                 pos = dlist_next(g->nodes, pos);
         }
@@ -171,8 +171,8 @@ graph *graph_reset_seen(graph *g)
         dlist_pos pos = dlist_first(g->nodes);
         while (!dlist_is_end(g->nodes, pos))
         {
-                node *inspectedNode = dlist_inspect(g->nodes, pos);
-                inspectedNode->seen_status = false;
+                node *inspected_node = dlist_inspect(g->nodes, pos);
+                inspected_node->seen_status = false;
                 pos = dlist_next(g->nodes, pos);
         }
         return g;
@@ -190,10 +190,10 @@ graph *graph_reset_seen(graph *g)
 graph *graph_insert_edge(graph *g, node *n1, node *n2)
 {
         // Get the neighbours of n1
-        dlist *n1neighbours = n1->neighbours;
-        void *newNeighbour = (void *)n2->identifier;
+        dlist *n1_neighbours = n1->neighbours;
+        void *new_neighbour = (void *)n2->identifier;
         // Insert (identifier of)n2 as a neighbour
-        dlist_insert(n1neighbours, newNeighbour, dlist_first(n1neighbours));
+        dlist_insert(n1_neighbours, new_neighbour, dlist_first(n1_neighbours));
         return g;
 }
 /**
@@ -210,15 +210,15 @@ graph *graph_delete_node(graph *g, node *n)
         dlist_pos pos = dlist_first(g->nodes);
         while (!dlist_is_end(g->nodes, pos))
         {
-                node *inspectedNode = dlist_inspect(g->nodes, pos);
+                node *inspected_node = dlist_inspect(g->nodes, pos);
                 //If the inspected node and given node are equal
-                if (nodes_are_equal(n, inspectedNode))
+                if (nodes_are_equal(n, inspected_node))
                 {
                         //Removes node from graph and frees.
                         dlist_remove(g->nodes, pos);
-                        dlist_kill(inspectedNode->neighbours);
+                        dlist_kill(inspected_node->neighbours);
 
-                        free(inspectedNode);
+                        free(inspected_node);
                         return g;
                 }
         }
@@ -241,20 +241,20 @@ graph *graph_delete_edge(graph *g, node *n1, node *n2)
         dlist_pos pos = dlist_first(g->nodes);
         while (!dlist_is_end(g->nodes, pos))
         {
-                node *inspectedNode = dlist_inspect(g->nodes, pos);
+                node *inspected_node = dlist_inspect(g->nodes, pos);
                 //Compare strings of source and inspected nodes identifier
-                if (!strcmp(source, inspectedNode->identifier))
+                if (!strcmp(source, inspected_node->identifier))
                 {
-                        dlist_pos pos2 = dlist_first(inspectedNode->neighbours);
-                        while (!dlist_is_end(inspectedNode->neighbours, pos2))
+                        dlist_pos pos2 = dlist_first(inspected_node->neighbours);
+                        while (!dlist_is_end(inspected_node->neighbours, pos2))
                         {
-                                void *inspectedIdentifier = dlist_inspect(inspectedNode->neighbours, pos2);
-                                if (!strcmp(destination, inspectedIdentifier))
-                                {     //Removes inspectedNodes neighbours
-                                        dlist_remove(inspectedNode->neighbours, pos2);
+                                void *inspected_identifier = dlist_inspect(inspected_node->neighbours, pos2);
+                                if (!strcmp(destination, inspected_identifier))
+                                {     //Removes inspected_nodes neighbours
+                                        dlist_remove(inspected_node->neighbours, pos2);
                                         return g;
                                 }
-                                pos2 = dlist_next(inspectedNode->neighbours, pos2);
+                                pos2 = dlist_next(inspected_node->neighbours, pos2);
                         }
                         //Prints out error message if given destination does not exist.
                         printf("ERROR: Destination does not exist in the graph!\n");
@@ -288,19 +288,19 @@ node *graph_choose_node(const graph *g)
 */
 dlist *graph_neighbours(const graph *g, const node *n)
 {     //Creates an empty list
-        dlist *neighboursCopy = dlist_empty(NULL);
+        dlist *neighbours_copy = dlist_empty(NULL);
         //Defines the list neighbours
         dlist *neighbours = n->neighbours;
         dlist_pos pos = dlist_first(neighbours);
-        while (!dlist_is_end(neighboursCopy, pos))
+        while (!dlist_is_end(neighbours_copy, pos))
         {
                 node *n = graph_find_node(g, dlist_inspect(neighbours, pos));
-                //Inserting node n into neighboursCopy
-                dlist_insert(neighboursCopy, n, dlist_first(neighboursCopy));
+                //Inserting node n into neighbours_copy
+                dlist_insert(neighbours_copy, n, dlist_first(neighbours_copy));
                 pos = dlist_next(neighbours, pos);
         }
         //returns the shallow copy
-        return neighboursCopy;
+        return neighbours_copy;
 }
 /**
 * graph_kill() - Destroy a given graph.
@@ -312,14 +312,14 @@ dlist *graph_neighbours(const graph *g, const node *n)
 */
 void graph_kill(graph *g)
 {
-        dlist *theNodes = g->nodes;
-        while (!dlist_is_empty(theNodes))
+        dlist *the_nodes = g->nodes;
+        while (!dlist_is_empty(the_nodes))
         {
-                node *inspectedNode = graph_choose_node(g);
-                g = graph_delete_node(g, inspectedNode);
+                node *inspected_node = graph_choose_node(g);
+                g = graph_delete_node(g, inspected_node);
         }
         //Kills list and free memory used by graph
-        dlist_kill(theNodes);
+        dlist_kill(the_nodes);
         free(g);
 }
 /**
@@ -335,11 +335,11 @@ void graph_print(const graph *g)
         dlist_pos pos = dlist_first(g->nodes);
         while (!dlist_is_end(g->nodes, pos))
         {     //Defines inspected node
-                node *inspectedNode = dlist_inspect(g->nodes, pos);
+                node *inspected_node = dlist_inspect(g->nodes, pos);
                 //Defines a list of neighbours
-                dlist *neighbours = graph_neighbours(g, inspectedNode);//inspectedNode->neighbours;
-                const char *identifier = inspectedNode->identifier;
-                bool seenstatus = inspectedNode->seen_status;
+                dlist *neighbours = graph_neighbours(g, inspected_node);//inspected_node->neighbours;
+                const char *identifier = inspected_node->identifier;
+                bool seenstatus = inspected_node->seen_status;
                 dlist_pos pos2 = dlist_first(neighbours);
                 //Prints out identifier
                 printf("\nIdentifier: %s\n", identifier);

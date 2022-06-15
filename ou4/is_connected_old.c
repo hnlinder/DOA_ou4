@@ -462,8 +462,8 @@ int read_map(const char **argv, char **str1, char **str2){
                 memcpy(str1[iter], &information[iter][0], length1);
                 memcpy(str2[iter], &information[iter][length1 + 1], length2);
                 free(information[iter]);
-                // free(str1[iter]);
-                // free(str2[iter]);
+                free(str1[iter]);
+                free(str2[iter]);
                 iter++;
         }
         if(!iter) {
@@ -486,87 +486,87 @@ int main(int argc, const char **argv)
         int iter = 0;
         char **str1 = malloc(BUFSIZE);
         char **str2 = malloc(BUFSIZE);
-        // char **information = malloc(BUFSIZE);
-        // FILE *in;
-        // int check = 0;
-        // int length1, length2;
+        char **information = malloc(BUFSIZE);
+        FILE *in;
+        int check = 0;
+        int length1, length2;
 
-        // //Reads in the map-file to in
-        // if (argv[1] != NULL)
-        // {
-        //         in = fopen(argv[1], "r");
-        // }
-        // else {
-        //         fprintf(stderr,"ERROR: No input!\n");
-        //         exit(EXIT_FAILURE);
-        // }
-        // if(in == NULL) {
-        //         fprintf(stderr,"ERROR: Empty file!\n");
-        //         exit(EXIT_FAILURE);
-        // }
-        //
-        // while (fgets(line, BUFSIZE, in) != NULL)
-        // {       //If line from map-file is blank or comment
-        //         if (line_is_blank(line) || line_is_comment(line))
-        //         {
-        //                 continue;
-        //         }
-        //         // Check if first non-commented line is an integer
-        //         if (check == 0)
-        //         {
-        //                 check = 1;
-        //                 if (!line_has_one_string(line))
-        //                 {       //Prints error to stderr
-        //                         fprintf(stderr, "ERROR: The first line contains more than one string!\n");
-        //                         exit(EXIT_FAILURE);
-        //                 }
-        //                 else if (!isdigit(*line))
-        //                 {       //Prints error to stderr
-        //                         fprintf(stderr, "ERROR: The first line is not a number!\n");
-        //                         exit(EXIT_FAILURE);
-        //                 }
-        //         }
-        //
-        //         if (line_has_one_string(line))
-        //         {       //reads number in string
-        //                 edges = atoi(line);
-        //                 if(!isdigit(*(char*)line)) {
-        //                         fprintf(stderr, "ERROR: Bad format!\n");
-        //                         exit(EXIT_FAILURE);
-        //                 }
-        //                 continue;
-        //         }
-        //
-        //         information[iter] = trim(line);
-        //         // Check that number of whitespaces are correct
-        //         if (count_white_spaces(information[iter]) != 1)
-        //         {
-        //                 fprintf(stderr, "ERROR: Not the correct number of whitespaces!\n");
-        //                 exit(EXIT_FAILURE);
-        //         }
-        //         //Allocates two string elements
-        //         str1[iter] = malloc(BUFSIZE);
-        //         str2[iter] = malloc(BUFSIZE);
-        //         length1 = white_space(information[iter]);
-        //         length2 = strlen(information[iter]) - length1 - 1;
-        //         //Adds a terminator to string
-        //         str1[iter][length1] = '\0';
-        //         str2[iter][length2] = '\0';
-        //         // Read strings from the file
-        //         memcpy(str1[iter], &information[iter][0], length1);
-        //         memcpy(str2[iter], &information[iter][length1 + 1], length2);
-        //         free(information[iter]);
-        //         free(str1[iter]);
-        //         free(str2[iter]);
-        //         iter++;
-        // }
-        // if(!iter) {
-        //         fprintf(stderr,"Error: Empty file!\n");
-        //         exit(EXIT_FAILURE);
-        // }
-        // //Frees allocated memory used by information
-        // free(information);
-        edges = read_map(argv, str1, str2);
+        //Reads in the map-file to in
+        if (argv[1] != NULL)
+        {
+                in = fopen(argv[1], "r");
+        }
+        else {
+                fprintf(stderr,"ERROR: No input!\n");
+                exit(EXIT_FAILURE);
+        }
+        if(in == NULL) {
+                fprintf(stderr,"ERROR: Empty file!\n");
+                exit(EXIT_FAILURE);
+        }
+
+        while (fgets(line, BUFSIZE, in) != NULL)
+        {       //If line from map-file is blank or comment
+                if (line_is_blank(line) || line_is_comment(line))
+                {
+                        continue;
+                }
+                // Check if first non-commented line is an integer
+                if (check == 0)
+                {
+                        check = 1;
+                        if (!line_has_one_string(line))
+                        {       //Prints error to stderr
+                                fprintf(stderr, "ERROR: The first line contains more than one string!\n");
+                                exit(EXIT_FAILURE);
+                        }
+                        else if (!isdigit(*line))
+                        {       //Prints error to stderr
+                                fprintf(stderr, "ERROR: The first line is not a number!\n");
+                                exit(EXIT_FAILURE);
+                        }
+                }
+
+                if (line_has_one_string(line))
+                {       //reads number in string
+                        edges = atoi(line);
+                        if(!isdigit(*(char*)line)) {
+                                fprintf(stderr, "ERROR: Bad format!\n");
+                                exit(EXIT_FAILURE);
+                        }
+                        continue;
+                }
+
+                information[iter] = trim(line);
+                // Check that number of whitespaces are correct
+                if (count_white_spaces(information[iter]) != 1)
+                {
+                        fprintf(stderr, "ERROR: Not the correct number of whitespaces!\n");
+                        exit(EXIT_FAILURE);
+                }
+                //Allocates two string elements
+                str1[iter] = malloc(BUFSIZE);
+                str2[iter] = malloc(BUFSIZE);
+                length1 = white_space(information[iter]);
+                length2 = strlen(information[iter]) - length1 - 1;
+                //Adds a terminator to string
+                str1[iter][length1] = '\0';
+                str2[iter][length2] = '\0';
+                // Read strings from the file
+                memcpy(str1[iter], &information[iter][0], length1);
+                memcpy(str2[iter], &information[iter][length1 + 1], length2);
+                free(information[iter]);
+                // free(str1[iter]);
+                // free(str2[iter]);
+                iter++;
+        }
+        if(!iter) {
+                fprintf(stderr,"Error: Empty file!\n");
+                exit(EXIT_FAILURE);
+        }
+        //Frees allocated memory used by information
+        free(information);
+        // edges = read_map(argv, str1, str2);
 
 
         //Builds the graph
@@ -630,6 +630,6 @@ int main(int argc, const char **argv)
         free(str1);
         free(str2);
         // //closes the read-in file
-        // fclose(in);
+        fclose(in);
         printf("Normal exit.\n");
 }

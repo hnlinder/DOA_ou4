@@ -13,9 +13,11 @@ GRAPHOBJECTS = ../datastructures-v1.0.9/src/dlist/dlist.o
 # 	./mwe1
 
 
-all: graph is_connected
+all: graph is_connected is_connected_old
 
 is_connected: is_connected.c
+	$(CC) $(CFLAGS) ./$< -o $@ $(INC) $(OBJECTS)
+is_connected_old: is_connected_old.c
 	$(CC) $(CFLAGS) ./$< -o $@ $(INC) $(OBJECTS)
 
 
@@ -32,8 +34,8 @@ delim:
 testgraph: is_connected delim mwe1
 	./mwe1
 
-memtest1: ./mwe1
-	valgrind --leak-check=full --show-reachable=yes ./$<
+memtest: ./is_connected
+	valgrind --leak-check=full --show-reachable=yes ./$< airmap1.map
 
-memtest2: ./is_connected
-	valgrind --leak-check=full --show-reachable=yes ./$< 3
+memtest2: ./is_connected_old
+	valgrind --leak-check=full --show-reachable=yes ./$< airmap1.map

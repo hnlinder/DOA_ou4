@@ -1,0 +1,4 @@
+Lowered BUFSIZE to 150
+Only allocate BUFSIZE instead of 3*BUFSIZE for node
+Changed all camelCase to snake_case
+Added a check for if the entry is empty
