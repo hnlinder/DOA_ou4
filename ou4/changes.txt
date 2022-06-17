@@ -2,3 +2,5 @@ Lowered BUFSIZE to 150
 Only allocate BUFSIZE instead of 3*BUFSIZE for node
 Changed all camelCase to snake_case
 Added a check for if the entry is empty
+Moved out the reading of the map file from main to its own function
+Renamed str11 and str22 to node1 and node2, respectively

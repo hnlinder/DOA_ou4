@@ -380,7 +380,7 @@ int count_nodes(char **str1, char **str2, int edges) {
 
 /**
 * set_str_to_empty() - Takes a string and sets first position to '\0'.
-* @str: String that we is to be emptied.
+* @str: String that is to be emptied.
 *
 * Returns: Nothing.
 */
@@ -388,9 +388,18 @@ void set_str_to_empty(char *str){
         str[0] = '\0';
 }
 
-int read_map(const char **argv, char **str1, char **str2){
+/**
+* read_map() - Reads and parses information from the map file.
+* @argv: Command line arguments.
+* @iter: Iteration counter.
+* @str1:
+*
+* Returns: Nothing.
+*/
+
+int read_map(const char **argv, int *iter, char **str1, char **str2){
         char line[BUFSIZE];
-        int iter = 0;
+        // int iter = 0;
         char **information = malloc(BUFSIZE);
         FILE *in;
         int edges, length1, length2;
@@ -443,30 +452,28 @@ int read_map(const char **argv, char **str1, char **str2){
                         continue;
                 }
 
-                information[iter] = trim(line);
+                information[*iter] = trim(line);
                 // Check that number of whitespaces are correct
-                if (count_white_spaces(information[iter]) != 1)
+                if (count_white_spaces(information[*iter]) != 1)
                 {
                         fprintf(stderr, "ERROR: Not the correct number of whitespaces!\n");
                         exit(EXIT_FAILURE);
                 }
                 //Allocates two string elements
-                str1[iter] = malloc(BUFSIZE);
-                str2[iter] = malloc(BUFSIZE);
-                length1 = white_space(information[iter]);
-                length2 = strlen(information[iter]) - length1 - 1;
+                str1[*iter] = malloc(BUFSIZE);
+                str2[*iter] = malloc(BUFSIZE);
+                length1 = white_space(information[*iter]);
+                length2 = strlen(information[*iter]) - length1 - 1;
                 //Adds a terminator to string
-                str1[iter][length1] = '\0';
-                str2[iter][length2] = '\0';
+                str1[*iter][length1] = '\0';
+                str2[*iter][length2] = '\0';
                 // Read strings from the file
-                memcpy(str1[iter], &information[iter][0], length1);
-                memcpy(str2[iter], &information[iter][length1 + 1], length2);
-                free(information[iter]);
-                // free(str1[iter]);
-                // free(str2[iter]);
-                iter++;
+                memcpy(str1[*iter], &information[*iter][0], length1);
+                memcpy(str2[*iter], &information[*iter][length1 + 1], length2);
+                free(information[*iter]);
+                *iter = *iter + 1;
         }
-        if(!iter) {
+        if(!(*iter)) {
                 fprintf(stderr,"Error: Empty file!\n");
                 exit(EXIT_FAILURE);
         }
@@ -476,162 +483,83 @@ int read_map(const char **argv, char **str1, char **str2){
         fclose(in);
         return edges;
 }
-
+void free_strings(char **str1, char **str2, int *iter){
+        //Free memory of each allocated element in str1 and str2 respectively
+        for (int i = *iter - 1; i >= 0; i--)
+        {
+                free(str1[i]);
+                free(str2[i]);
+        }
+        //Frees str1 & str2
+        free(str1);
+        free(str2);
+}
 
 int main(int argc, const char **argv)
 {
         char line[BUFSIZE];
-
         int edges;
-        int iter = 0;
+        // int *iter;
+        int it = 0;
+        int *iter = &it;
         char **str1 = malloc(BUFSIZE);
         char **str2 = malloc(BUFSIZE);
-        // char **information = malloc(BUFSIZE);
-        // FILE *in;
-        // int check = 0;
-        // int length1, length2;
 
-        // //Reads in the map-file to in
-        // if (argv[1] != NULL)
-        // {
-        //         in = fopen(argv[1], "r");
-        // }
-        // else {
-        //         fprintf(stderr,"ERROR: No input!\n");
-        //         exit(EXIT_FAILURE);
-        // }
-        // if(in == NULL) {
-        //         fprintf(stderr,"ERROR: Empty file!\n");
-        //         exit(EXIT_FAILURE);
-        // }
-        //
-        // while (fgets(line, BUFSIZE, in) != NULL)
-        // {       //If line from map-file is blank or comment
-        //         if (line_is_blank(line) || line_is_comment(line))
-        //         {
-        //                 continue;
-        //         }
-        //         // Check if first non-commented line is an integer
-        //         if (check == 0)
-        //         {
-        //                 check = 1;
-        //                 if (!line_has_one_string(line))
-        //                 {       //Prints error to stderr
-        //                         fprintf(stderr, "ERROR: The first line contains more than one string!\n");
-        //                         exit(EXIT_FAILURE);
-        //                 }
-        //                 else if (!isdigit(*line))
-        //                 {       //Prints error to stderr
-        //                         fprintf(stderr, "ERROR: The first line is not a number!\n");
-        //                         exit(EXIT_FAILURE);
-        //                 }
-        //         }
-        //
-        //         if (line_has_one_string(line))
-        //         {       //reads number in string
-        //                 edges = atoi(line);
-        //                 if(!isdigit(*(char*)line)) {
-        //                         fprintf(stderr, "ERROR: Bad format!\n");
-        //                         exit(EXIT_FAILURE);
-        //                 }
-        //                 continue;
-        //         }
-        //
-        //         information[iter] = trim(line);
-        //         // Check that number of whitespaces are correct
-        //         if (count_white_spaces(information[iter]) != 1)
-        //         {
-        //                 fprintf(stderr, "ERROR: Not the correct number of whitespaces!\n");
-        //                 exit(EXIT_FAILURE);
-        //         }
-        //         //Allocates two string elements
-        //         str1[iter] = malloc(BUFSIZE);
-        //         str2[iter] = malloc(BUFSIZE);
-        //         length1 = white_space(information[iter]);
-        //         length2 = strlen(information[iter]) - length1 - 1;
-        //         //Adds a terminator to string
-        //         str1[iter][length1] = '\0';
-        //         str2[iter][length2] = '\0';
-        //         // Read strings from the file
-        //         memcpy(str1[iter], &information[iter][0], length1);
-        //         memcpy(str2[iter], &information[iter][length1 + 1], length2);
-        //         free(information[iter]);
-        //         free(str1[iter]);
-        //         free(str2[iter]);
-        //         iter++;
-        // }
-        // if(!iter) {
-        //         fprintf(stderr,"Error: Empty file!\n");
-        //         exit(EXIT_FAILURE);
-        // }
-        // //Frees allocated memory used by information
-        // free(information);
-        edges = read_map(argv, str1, str2);
+        // Read map file, return nr of edges
+        edges = read_map(argv, iter, str1, str2);
 
-
-        //Builds the graph
+        //Build graph from map information
         graph *g = build_graph(str1, str2, count_nodes(str1, str2, edges), edges);
-        char str11[BUFSIZE];
-        char str22[BUFSIZE];
-        set_str_to_empty(str11);
-        set_str_to_empty(str22);
+        // Free all memory for str1 and str2
+        free_strings(str1, str2, iter);
+
+        char node1[BUFSIZE];
+        char node2[BUFSIZE];
+        set_str_to_empty(node1);
+        set_str_to_empty(node2);
         do
         {
                 printf("Enter origin and destination (quit to exit): ");
                 //Reads in entered origin and destination into line
                 fgets(line, sizeof(line), stdin);
-                sscanf(line, "%s %s", str11, str22);
+                sscanf(line, "%s %s", node1, node2);
                 //If user enters quit, will skip steps below and exit loop
-                if (str11[0] == '\0'){
+                if (node1[0] == '\0'){
                         printf("Please enter an origin and a destination\n");
-                        printf("str11: \"%s\", str22: \"%s\"\n", str11, str22);
                         continue;
                 }
-                else if (!strcmp(str11, "quit"))
+                else if (!strcmp(node1, "quit"))
                 {
                         continue;
                 }
                 else
                 {       //Creates nodes corresponding to origin and destination
-                        node *origin = graph_find_node(g, str11);
-                        node *destination = graph_find_node(g, str22);
+                        node *origin = graph_find_node(g, node1);
+                        node *destination = graph_find_node(g, node2);
                         if (origin == NULL)
                         {       //If user enters a node that does not exist, prints error
-                                printf("Node %s does not exist, try again!\n\n", str11);
-                                set_str_to_empty(str11);
+                                printf("Node %s does not exist, try again!\n\n", node1);
+                                set_str_to_empty(node1);
                                 continue;
                         }
                         if (destination == NULL)
                         {       //If user enters a node that does not exist, prints error
-                                printf("Node %s does not exist, try again!\n\n", str22);
-                                set_str_to_empty(str22);
+                                printf("Node %s does not exist, try again!\n\n", node2);
+                                set_str_to_empty(node2);
                                 continue;
                         }
                         if (find_path(g, origin, destination))
                         {       //If there is a path between origin and destination
-                                printf("There is a path from %s to %s.\n\n", str11, str22);
+                                printf("There is a path from %s to %s.\n\n", node1, node2);
                         }
                         else
                         {       //If there is not a path between origin and destination
-                                printf("There is no path from %s to %s.\n\n", str11, str22);
+                                printf("There is no path from %s to %s.\n\n", node1, node2);
                         }
                 }
 
-        } while (strcmp(str11, "quit"));
+        } while (strcmp(node1, "quit"));
         //Kills and free memory of graph
         graph_kill(g);
-
-        //Free memery of each allocated element in str1 and str2 respectively
-        for (int i = iter - 1; i >= 0; i--)
-        {
-                free(str1[i]);
-                free(str2[i]);
-
-        }
-        //Frees str1 & str2
-        free(str1);
-        free(str2);
-        // //closes the read-in file
-        // fclose(in);
         printf("Normal exit.\n");
 }
