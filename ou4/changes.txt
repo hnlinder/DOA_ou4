@@ -1,6 +1,10 @@
-Lowered BUFSIZE to 150
-Only allocate BUFSIZE instead of 3*BUFSIZE for node
-Changed all camelCase to snake_case
-Added a check for if the entry is empty
-Moved out the reading of the map file from main to its own function
-Renamed str11 and str22 to node1 and node2, respectively
+1. Lowered BUFSIZE to 150.
+2. Only allocate BUFSIZE instead of 3*BUFSIZE for node names.
+3. Changed all camelCase to snake_case.
+4. Added a check for if the entry is empty. Also sets user entries to empty in
+        each loop, giving slightly different behaviour in main loop. Now, you
+        can't see previous result again by just pressing enter, need valid
+        input every time.
+5. Moved out the reading of the map file from main to its own function.
+6. Renamed str11 and str22 to node1 and node2, respectively.
+7. Moved the checks for non-existing nodes from main to a separate function

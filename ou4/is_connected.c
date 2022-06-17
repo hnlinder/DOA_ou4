@@ -215,7 +215,8 @@ return white_space_cnt;
 *
 */
 char *trim(char *line)
-{       //Remove lines of comment
+{
+        //Remove lines of comment
         char *stemp = remove_comment(line);
         //Takes out the index of first non-whitespace
         int first_non_blank = first_non_white_space(stemp);
@@ -241,7 +242,6 @@ char *trim(char *line)
 */
 graph *build_graph(char **str1, char **str2, int max_elements, int edges)
 {
-
         //Creates empty graph
         graph *g = graph_empty(max_elements);
         for (int i = 0; i < edges; i++)
@@ -278,7 +278,8 @@ graph *build_graph(char **str1, char **str2, int max_elements, int edges)
 *         0 if not.
 */
 bool find_path(graph *g, node *src, node *dest)
-{       //Creates an empty queue
+{
+        //Creates an empty queue
         queue *q = queue_empty(NULL);
         //Changes seen status for source node
         g = graph_node_set_seen(g, src, 1);
@@ -329,7 +330,8 @@ bool find_path(graph *g, node *src, node *dest)
 *
 * Returns: Number of unique nodes.
 */
-int count_nodes(char **str1, char **str2, int edges) {
+int count_nodes(char **str1, char **str2, int edges)
+{
         // Allocate memory for unique nodes
         char **uniquenodes = malloc(BUFSIZE);
         // Initiate number of unique nodes to 0
@@ -377,35 +379,34 @@ int count_nodes(char **str1, char **str2, int edges) {
         // Return cnt.
         return cnt;
 }
-
 /**
 * set_str_to_empty() - Takes a string and sets first position to '\0'.
 * @str: String that is to be emptied.
 *
 * Returns: Nothing.
 */
-void set_str_to_empty(char *str){
-        str[0] = '\0';
+void set_nodes_to_empty(char *empty_node1, char *empty_node2)
+{
+        empty_node1[0] = '\0';
+        empty_node2[0] = '\0';
 }
-
 /**
-* read_map() - Reads and parses information from the map file.
+* read_map() - Reads and parses information from the map file
+* containing a description of a graph.
 * @argv: Command line arguments.
 * @iter: Iteration counter.
-* @str1:
+* @str1: Array of origin node names.
+* @str2: Array of destination node names.
 *
-* Returns: Nothing.
+* Returns: Number of edges in the graph.
 */
-
-int read_map(const char **argv, int *iter, char **str1, char **str2){
+int read_map(const char **argv, int *iter, char **str1, char **str2)
+{
         char line[BUFSIZE];
-        // int iter = 0;
         char **information = malloc(BUFSIZE);
         FILE *in;
         int edges, length1, length2;
         int check = 0;
-        // char **str1 = malloc(BUFSIZE);
-        // char **str2 = malloc(BUFSIZE);
         //Reads in the map-file to in
         if (argv[1] != NULL)
         {
@@ -459,6 +460,7 @@ int read_map(const char **argv, int *iter, char **str1, char **str2){
                         fprintf(stderr, "ERROR: Not the correct number of whitespaces!\n");
                         exit(EXIT_FAILURE);
                 }
+
                 //Allocates two string elements
                 str1[*iter] = malloc(BUFSIZE);
                 str2[*iter] = malloc(BUFSIZE);
@@ -483,7 +485,16 @@ int read_map(const char **argv, int *iter, char **str1, char **str2){
         fclose(in);
         return edges;
 }
-void free_strings(char **str1, char **str2, int *iter){
+/**
+* free_strings() - Frees all memory in the strings given.
+* @str1: Array of origin node names.
+* @str2: Array of destination node names.
+* @iter: Number of elements in str1 and str2.
+*
+* Returns: Nothing.
+*/
+void free_strings(char **str1, char **str2, int *iter)
+{
         //Free memory of each allocated element in str1 and str2 respectively
         for (int i = *iter - 1; i >= 0; i--)
         {
@@ -493,6 +504,27 @@ void free_strings(char **str1, char **str2, int *iter){
         //Frees str1 & str2
         free(str1);
         free(str2);
+}
+/**
+* nodes_do_not_exist() - Checks if any of the given nodes are null.
+* @origin: Origin node.
+* @destination: Destination node.
+* @node1: Name of origin node.
+* @node2: Name of destination node.
+*
+* Returns: Name of NULL node - if any node is NULL.
+           NULL - If no node is NULL
+*/
+char *nodes_do_not_exist(node *origin, node *destination, char *node1, char *node2)
+{
+        if (origin == NULL){
+                return (node1);
+        }
+        else if (destination == NULL){
+                return (node2);
+        }
+        else
+                return NULL;
 }
 
 int main(int argc, const char **argv)
@@ -510,13 +542,11 @@ int main(int argc, const char **argv)
 
         //Build graph from map information
         graph *g = build_graph(str1, str2, count_nodes(str1, str2, edges), edges);
-        // Free all memory for str1 and str2
-        free_strings(str1, str2, iter);
 
+        // Initialize node names as empty
         char node1[BUFSIZE];
         char node2[BUFSIZE];
-        set_str_to_empty(node1);
-        set_str_to_empty(node2);
+        set_nodes_to_empty(node1, node2);
         do
         {
                 printf("Enter origin and destination (quit to exit): ");
@@ -524,28 +554,24 @@ int main(int argc, const char **argv)
                 fgets(line, sizeof(line), stdin);
                 sscanf(line, "%s %s", node1, node2);
                 //If user enters quit, will skip steps below and exit loop
-                if (node1[0] == '\0'){
-                        printf("Please enter an origin and a destination\n");
+                if (!strcmp(node1, "quit"))
+                {
                         continue;
                 }
-                else if (!strcmp(node1, "quit"))
-                {
+                // If any of the nodes are left empty, prompt the user to reenter
+                // origin and destination
+                else if (node1[0] == '\0' || node2[0] == '\0'){
+                        printf("Please enter both an origin and a destination\n\n");
                         continue;
                 }
                 else
                 {       //Creates nodes corresponding to origin and destination
                         node *origin = graph_find_node(g, node1);
                         node *destination = graph_find_node(g, node2);
-                        if (origin == NULL)
-                        {       //If user enters a node that does not exist, prints error
-                                printf("Node %s does not exist, try again!\n\n", node1);
-                                set_str_to_empty(node1);
-                                continue;
-                        }
-                        if (destination == NULL)
-                        {       //If user enters a node that does not exist, prints error
-                                printf("Node %s does not exist, try again!\n\n", node2);
-                                set_str_to_empty(node2);
+                        char *non_existent_node = nodes_do_not_exist(origin, destination, node1, node2);
+                        if (non_existent_node){
+                                printf("Node %s does not exist, try again!\n\n", non_existent_node);
+                                set_nodes_to_empty(node1, node2);
                                 continue;
                         }
                         if (find_path(g, origin, destination))
@@ -556,10 +582,14 @@ int main(int argc, const char **argv)
                         {       //If there is not a path between origin and destination
                                 printf("There is no path from %s to %s.\n\n", node1, node2);
                         }
+                        set_nodes_to_empty(node1, node2);
                 }
 
         } while (strcmp(node1, "quit"));
+
         //Kills and free memory of graph
         graph_kill(g);
+        // Free all memory for str1 and str2
+        free_strings(str1, str2, iter);
         printf("Normal exit.\n");
 }
