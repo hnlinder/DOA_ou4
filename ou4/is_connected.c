@@ -573,6 +573,8 @@ int main(int argc, const char **argv)
         graph *g = build_graph(str1, str2, count_nodes(str1, str2, edges), edges);
         char str11[BUFSIZE];
         char str22[BUFSIZE];
+        set_str_to_empty(str11);
+        set_str_to_empty(str22);
         do
         {
                 printf("Enter origin and destination (quit to exit): ");
@@ -580,13 +582,13 @@ int main(int argc, const char **argv)
                 fgets(line, sizeof(line), stdin);
                 sscanf(line, "%s %s", str11, str22);
                 //If user enters quit, will skip steps below and exit loop
-                if (!strcmp(str11, "quit"))
-                {
-                        continue;
-                }
-                else if (str11[0] == '\0'){
+                if (str11[0] == '\0'){
                         printf("Please enter an origin and a destination\n");
                         printf("str11: \"%s\", str22: \"%s\"\n", str11, str22);
+                        continue;
+                }
+                else if (!strcmp(str11, "quit"))
+                {
                         continue;
                 }
                 else
